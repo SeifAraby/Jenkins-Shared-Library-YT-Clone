@@ -22,7 +22,7 @@ pipeline{
     stages{
         stage('clean workspace'){
             steps{
-                cleanWorkspace()
+                cleanWs()
             }
         }
         stage('checkout from Git'){
@@ -74,7 +74,7 @@ pipeline{
                 }
             }
         }
-        stage('Trivy iamge'){
+        stage('Trivy image'){
         when { expression { params.action == 'create'}}    
             steps{
                 trivyImage()
@@ -109,7 +109,7 @@ pipeline{
     always {
         echo 'Slack Notifications'
         slackSend (
-            channel: '#channel name',   #change your channel name
+            channel: '#jenkins',   #change your channel name
             color: COLOR_MAP[currentBuild.currentResult],
             message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} \n build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
         )
